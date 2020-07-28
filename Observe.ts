@@ -5,6 +5,7 @@ export default class Observe<T> {
   private history: Array<T> = [];
   private eventID: string;
   private currentEvent: CustomEvent<T> = new CustomEvent("");
+  public maxHistorySize = 1000;
   /**
    * Observes a value for changes and updates all the listeners. also keeps a track of the change history.
    * @param defaultValue
@@ -55,12 +56,18 @@ export default class Observe<T> {
   public setValue(value: T) {
     if (value !== this.getValue()) {
       this.history.push(value);
+      if (this.history.length > this.maxHistorySize) { // ensures we don't
+        this.history.splice(1, 1);
+      }
       this.emit(value);
     }
   }
 
-  public goBack() {
-    // todo
+  /**
+   * Restore the value to it's initial value
+   */
+  public reset() {
+    this.setValue(this.getHistory()[0]);
   }
 
   private emit(value: T) {

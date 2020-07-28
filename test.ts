@@ -1,6 +1,7 @@
 import {
   fail,
   assertEquals,
+  assertArrayContains,
 } from "https://deno.land/std/testing/asserts.ts";
 import Observe from "./Observe.ts";
 
@@ -64,4 +65,24 @@ Deno.test("Same value does nothing", (): void => {
 
   val.setValue(100);
   assertEquals(temp, 100);
+});
+
+Deno.test("History is limited on large change count", (): void => {
+  let val = new Observe("init");
+  val.maxHistorySize = 4;
+  val.setValue("SHOULD_BE_REMOVED");
+  for (let i = 0; i < val.maxHistorySize + 1; i++) {
+    val.setValue(`str ${val.setValue(((Math.random() * 10) + 1).toString())}`);
+  }
+  assertEquals(val.getHistory().includes("SHOULD_BE_REMOVED"), false);
+});
+
+Deno.test("Reset restores the original value", (): void => {
+  let val = new Observe("init");
+  val.maxHistorySize = 4;
+  val.setValue("lorem");
+  val.setValue("ipsum");
+  val.setValue("some stuff");
+  val.reset();
+  assertEquals(val.getValue(), "init");
 });
