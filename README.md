@@ -18,7 +18,7 @@ Also check the examples folder for more examples
 ## Methods
 See JSdoc for more information
 | Name          | Description      |
-| ------------- |:-------------:   |
+| ------------- |-------------   |
 | getValue()    | Returns the current value. To be used outside of callbacks |
 | getHistory()  | Gets the change history. Every time a new value is set it is pushed to a history array |
 | bind()        | used to listen to changes. Takes a callback method that is called with the new data when the observe instance changes. **Returns the function used for the event listener.. To be used with the unBind method (see below)** |
