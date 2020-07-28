@@ -47,3 +47,12 @@ Deno.test("Stopping prevents continue", (): void => {
   val.setValue("new value");
   assertEquals(temp, "init");
 });
+
+Deno.test("Type is reflected", (): void => {
+    let val = new Observe(2);
+    val.bind((data)=>{
+        assertEquals(typeof data, "number")
+    })
+  
+    val.setValue(10);
+  });
