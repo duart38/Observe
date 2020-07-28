@@ -1,6 +1,6 @@
 ![alt text](banner.svg "Logo Title Text 1")
 # Observe
-Observe any variable in Deno <br>
+> **Simply observe any variable in Deno** <br>
 ![Test module](https://github.com/duart38/Observe/workflows/Test%20module/badge.svg?branch=master)
 
 ## Example
