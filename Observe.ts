@@ -48,13 +48,15 @@ export default class Observe<T> {
   }
 
   /**
-   * Updates the value, notifying any bound listeners
+   * Updates the value, notifying any bound listeners.. setting the next value equals to the last will fail
    * @see bind() method
    * @param value T
    */
   public setValue(value: T) {
-    this.history.push(value);
-    this.emit(value);
+    if(value !== this.getValue()){
+        this.history.push(value);
+        this.emit(value);
+    }
   }
 
   public goBack() {

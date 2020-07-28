@@ -56,3 +56,12 @@ Deno.test("Type is reflected", (): void => {
   
     val.setValue(10);
 });
+
+Deno.test("Same value does nothing", (): void => {
+    let val = new Observe<number>(100);
+    let temp = 100;
+    val.bind((data)=>temp = data); // should not be called
+  
+    val.setValue(100);
+    assertEquals(temp, 100)
+});
