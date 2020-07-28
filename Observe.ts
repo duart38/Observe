@@ -19,6 +19,9 @@ export default class Observe<T> {
     return this.history[this.history.length - 1];
   }
 
+  /**
+   * Every time a value is updated it is pushed to an array.. this will allow you to see the history
+   */
   public getHistory(): Array<T> {
     return this.history;
   }
@@ -36,7 +39,7 @@ export default class Observe<T> {
     return func;
   }
   /**
-   * Unbinds a previously bound EventListener or EventListenerObject. The original callback must be provided
+   * Unbinds a previously bound EventListener or EventListenerObject. The callback returned by bind() should be provided
    * @param callback the original callback to be unbound
    */
   public unBind(callback: EventListener | EventListenerObject) {
