@@ -47,7 +47,3 @@ Deno.test("Stopping prevents continue", (): void => {
   val.setValue("new value");
   assertEquals(temp, "init");
 });
-
-Deno.test("Test fail", (): void => {
-    fail("test")
-  });
