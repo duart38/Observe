@@ -53,9 +53,9 @@ export default class Observe<T> {
    * @param value T
    */
   public setValue(value: T) {
-    if(value !== this.getValue()){
-        this.history.push(value);
-        this.emit(value);
+    if (value !== this.getValue()) {
+      this.history.push(value);
+      this.emit(value);
     }
   }
 

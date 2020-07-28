@@ -49,19 +49,19 @@ Deno.test("Stopping prevents continue", (): void => {
 });
 
 Deno.test("Type is reflected", (): void => {
-    let val = new Observe<number>(2);
-    val.bind((data)=>{
-        assertEquals(typeof data, "number")
-    })
-  
-    val.setValue(10);
+  let val = new Observe<number>(2);
+  val.bind((data) => {
+    assertEquals(typeof data, "number");
+  });
+
+  val.setValue(10);
 });
 
 Deno.test("Same value does nothing", (): void => {
-    let val = new Observe<number>(100);
-    let temp = 100;
-    val.bind((data)=>temp = data); // should not be called
-  
-    val.setValue(100);
-    assertEquals(temp, 100)
+  let val = new Observe<number>(100);
+  let temp = 100;
+  val.bind((data) => temp = data); // should not be called
+
+  val.setValue(100);
+  assertEquals(temp, 100);
 });
