@@ -7,6 +7,9 @@ name: Test module
 on:
   push:
     branches: [ master ]
+    paths:
+      - '**.ts'
+      - '**.js'
   pull_request:
     branches: [ master ]
 
