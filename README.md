@@ -24,7 +24,13 @@ See JSdoc for more information
 | bind()        | used to listen to changes. Takes a callback method that is called with the new data when the observe instance changes. **Returns the function used for the event listener.. To be used with the unBind method (see below)**
 | unBind()      | Unbinds a previously bound EventListener or EventListenerObject. The callback returned by bind() should be provided
 | setValue()    | Updates the observed value.. all bound will be notified. Setting a value equals to the last set value will do nothing.
-| stop()        | prevents event from reaching any registered event listeners after the current one
+| stop()        | Prevents event from reaching any registered event listeners after the current one
+| reset()       | Restore the state to the original provided method
+| maxHistorySize| Limit the history array size **(can be lowered to save some precious ram)**
+
+> The history length is limited to 1000 values.. after this the first value (excluding the original) will be removed on each push.. to increase or decrease this value change the "maxHistorySize" variable
+
+### It is recommended to lower the value of maxHistorySize if you are not going to use the history.
 
 ## Testing
 ```Shell
