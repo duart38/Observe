@@ -75,6 +75,13 @@ export default class Observe<T> {
   }
 
   /**
+   * Returns the event ID or type used when dispatching an event.. This can be used if you want to create your own listeners
+   */
+  public getEventID(): string{
+    return this.eventID;
+  }
+
+  /**
    * Stops the current event.
    * Invoking this method prevents event from reaching any registered event listeners after the current one finishes running and, when dispatched in a tree, also prevents event from reaching any other objects.
    */
