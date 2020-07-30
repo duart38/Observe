@@ -38,5 +38,5 @@ See JSdoc for more information
 
 ## Testing
 ```Shell
-deno run test
+deno test
 ```
