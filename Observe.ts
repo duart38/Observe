@@ -16,6 +16,9 @@ export default class Observe<T> {
     this.history.push(defaultValue);
   }
 
+  /**
+   * Gets the last added value
+   */
   public getValue(): T {
     return this.history[this.history.length - 1];
   }
@@ -69,6 +72,10 @@ export default class Observe<T> {
     this.setValue(this.getHistory()[0]);
   }
 
+  /**
+   * Dispatches events to listeners
+   * @param value The value to dispatch
+   */
   private emit(value: T) {
     this.currentEvent = new CustomEvent<T>(this.eventID, { detail: value });
     const success = dispatchEvent(this.currentEvent);
