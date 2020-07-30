@@ -44,7 +44,6 @@ export default class Observe<T> {
    * @param callback the original callback to be unbound
    */
   public unBind(callback: EventListener | EventListenerObject) {
-    // todo .. make sure this does not remove other event listeners with the same type but different callbacks......
     removeEventListener(this.eventID, callback);
   }
 
@@ -83,6 +82,3 @@ export default class Observe<T> {
     this.currentEvent.stopImmediatePropagation();
   }
 }
-
-//TODO: stress test the history array with value and observe heap memory usage.. i believe we might need to limit the array
-//.. Can we have multiple listeners with the same key ?... TEST THIS!!!
