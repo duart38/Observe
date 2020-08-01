@@ -1,0 +1,13 @@
+{
+  "name": "Observe",
+  "description": "Type-safe observable(state) values in Deno",
+  "stable": true,
+  "files": [
+    "./examples/*",
+    "./banner.svg",
+    "./LICENSE",
+    "./Observe.ts",
+    "./README.md",
+    "./test.ts"
+  ]
+}
