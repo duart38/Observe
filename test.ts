@@ -86,3 +86,21 @@ Deno.test("Reset restores the original value", (): void => {
   val.reset();
   assertEquals(val.getValue(), "init");
 });
+
+Deno.test("Nesting observables should un-sub in case setValue is called", (): void => {
+  let nested = new Observe(100);
+  let obs = new Observe(nested);
+  let temp = 0;
+
+  obs.bind((data) => {
+    temp = data.getValue();
+  });
+
+  let new_nest = new Observe(1);
+
+  obs.setValue(new_nest); // should UNBIND the prev value here (nested should be unbound)
+  nested.setValue(98); // should not be reached (unbound)
+  new_nest.setValue(200); // reached
+
+  assertEquals(temp, 200);
+});

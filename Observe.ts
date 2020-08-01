@@ -6,6 +6,7 @@ export default class Observe<T> {
   private eventID: string;
   private currentEvent: CustomEvent<T> = new CustomEvent("");
   public maxHistorySize = 1000;
+  private lastNestedBound: EventListener | EventListenerObject = () => {};
   /**
    * Observes a value for changes and updates all the listeners. also keeps a track of the change history.
    * @param defaultValue
@@ -14,9 +15,10 @@ export default class Observe<T> {
     this.eventID = "Observed_" +
       crypto.getRandomValues(new Uint32Array(2)).toString().replace(",", "_");
     this.history.push(defaultValue);
-    if(defaultValue instanceof Observe){ // WIP
-      console.log( )
-      defaultValue.bind((d: T)=>this.emit(d))
+    if (defaultValue instanceof Observe) {
+      this.lastNestedBound = defaultValue.bind((d: T) =>
+        this.emit(defaultValue)
+      );
     }
   }
 
@@ -55,17 +57,30 @@ export default class Observe<T> {
   }
 
   /**
-   * Updates the value, notifying any bound listeners.. setting the next value equals to the last will fail
+   * Updates the value, notifying any bound listeners.. setting the next value equals to the last will not do anything.
+   * In the case you are nesting Observes this method will unbound the last pushed Observe
    * @see bind() method
    * @param value T
    */
   public setValue(value: T) {
-    if (value !== this.getValue()) {
-      this.history.push(value);
-      if (this.history.length > this.maxHistorySize) { // ensures we don't
-        this.history.splice(1, 1);
-      }
+    if (value !== this.getValue() && !(value instanceof Observe)) {
+      this.updateHistory(value);
       this.emit(value);
+    } else if (value instanceof Observe) {
+      let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<
+        any
+      >;
+      lh.unBind(this.lastNestedBound); // unbind the last bound to
+      this.lastNestedBound = value.bind((d: T) => this.emit(value)); // bind to new value and store its cb
+      this.updateHistory(value);
+      this.emit(value);
+    }
+  }
+
+  private updateHistory(value: T) {
+    this.history.push(value); //
+    if (this.history.length > this.maxHistorySize) {
+      this.history.splice(1, 1);
     }
   }
 
@@ -88,7 +103,7 @@ export default class Observe<T> {
   /**
    * Returns the event ID or type used when dispatching an event.. This can be used if you want to create your own listeners
    */
-  public getEventID(): string{
+  public getEventID(): string {
     return this.eventID;
   }
 
