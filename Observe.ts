@@ -14,6 +14,10 @@ export default class Observe<T> {
     this.eventID = "Observed_" +
       crypto.getRandomValues(new Uint32Array(2)).toString().replace(",", "_");
     this.history.push(defaultValue);
+    if(defaultValue instanceof Observe){ // WIP
+      console.log( )
+      defaultValue.bind((d: T)=>this.emit(d))
+    }
   }
 
   /**
