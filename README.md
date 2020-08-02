@@ -6,7 +6,7 @@
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/Observe)
 
 
-## Example
+## Example (Deno)
 ```JavaScript
 let obs = new Observe("initial value"); // new observable with type String
 
@@ -18,6 +18,29 @@ obs.setValue("another value"); // sets the value
 ```
 Also check the examples folder for more examples
 
+## Example (Basic html + js)
+> Download Observe.js from the releases tab
+
+**index.html**
+```html
+<html>
+    <head></head>
+    <body>
+        <h1>Observable value test</h1>
+        <script src="./Observe.js"></script>
+        <script src="./index.js"></script>
+    </body>
+</html>
+```
+
+**index.js**
+```JavaScript
+var observable = new Observe("s")
+observable.bind((d)=>{
+    console.log(d)
+})
+observable.setValue("new val")
+```
 ## Methods
 
 ---
