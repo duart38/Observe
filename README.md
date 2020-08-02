@@ -3,7 +3,7 @@
 > **Simply observe any variable in Deno** <br>
 
 > ![Test module](https://github.com/duart38/Observe/workflows/Test%20module/badge.svg?branch=master)  
-[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/your-module)
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/Observe)
 
 
 ## Example
