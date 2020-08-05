@@ -41,11 +41,12 @@ export default class Observe<T> {
    * The callback receives the changed data T
    * @example new Observe("test").bind((data)=>console.log(data))
    * @param callback
+   * @param once Specify wether the bound callback will only be called once (this causes the listeners to be removed thus increasing performance)
    * @returns the function used in the listener (can be used to unbind)
    */
-  public bind(callback: ObservedCallback<T>): (e: Event) => void {
+  public bind(callback: ObservedCallback<T>, once:boolean = false): (e: Event) => void {
     let func = (e: Event) => callback((<CustomEvent> e).detail);
-    addEventListener(this.eventID, func);
+    addEventListener(this.eventID, func, {once});
     return func;
   }
   /**
