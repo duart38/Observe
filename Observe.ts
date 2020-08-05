@@ -5,6 +5,10 @@ export default class Observe<T> {
   private history: Array<T> = [];
   private eventID: string;
   private currentEvent: CustomEvent<T> = new CustomEvent("");
+  /**
+   * Used to control how far back you can track updates.
+   * Lower this value to reduce memory footprint
+   */
   public maxHistorySize = 1000;
   private lastNestedBound: EventListener | EventListenerObject = () => {};
   /**
@@ -68,9 +72,7 @@ export default class Observe<T> {
       this.updateHistory(value);
       this.emit(value);
     } else if (value instanceof Observe) {
-      let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<
-        any
-      >;
+      let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<any>;
       lh.unBind(this.lastNestedBound); // unbind the last bound to
       this.lastNestedBound = value.bind((d: T) => this.emit(value)); // bind to new value and store its cb
       this.updateHistory(value);
@@ -79,7 +81,7 @@ export default class Observe<T> {
   }
 
   private updateHistory(value: T) {
-    this.history.push(value); //
+    this.history.push(value);
     if (this.history.length > this.maxHistorySize) {
       this.history.splice(1, 1);
     }
