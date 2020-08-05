@@ -124,9 +124,9 @@ System.register("Observe", [], function (exports_1, context_1) {
                 getHistory() {
                     return this.history;
                 }
-                bind(callback) {
+                bind(callback, once = false) {
                     let func = (e) => callback(e.detail);
-                    addEventListener(this.eventID, func);
+                    addEventListener(this.eventID, func, { once });
                     return func;
                 }
                 unBind(callback) {
