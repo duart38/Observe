@@ -27,7 +27,7 @@ Also check the examples folder for more examples
     <head></head>
     <body>
         <h1>Observable value test</h1>
-        <script src="./Observe.js"></script>
+        <script type="module" src="Observe.bundle.js"></script> <!-- Needs to come from a server as type module does not support local files-->
         <script src="./index.js"></script>
     </body>
 </html>
