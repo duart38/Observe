@@ -48,9 +48,12 @@ export default class Observe<T> {
    * @param once Specify wether the bound callback will only be called once (this causes the listeners to be removed thus increasing performance)
    * @returns the function used in the listener (can be used to unbind)
    */
-  public bind(callback: ObservedCallback<T>, once:boolean = false): (e: Event) => void {
+  public bind(
+    callback: ObservedCallback<T>,
+    once: boolean = false,
+  ): (e: Event) => void {
     let func = (e: Event) => callback((<CustomEvent> e).detail);
-    addEventListener(this.eventID, func, {once});
+    addEventListener(this.eventID, func, { once });
     return func;
   }
   /**
@@ -72,7 +75,9 @@ export default class Observe<T> {
       this.updateHistory(value);
       this.emit(value);
     } else if (value instanceof Observe) {
-      let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<any>;
+      let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<
+        any
+      >;
       lh.unBind(this.lastNestedBound); // unbind the last bound to
       this.lastNestedBound = value.bind((d: T) => this.emit(value)); // bind to new value and store its cb
       this.updateHistory(value);
