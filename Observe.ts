@@ -60,8 +60,9 @@ export default class Observe<T> {
    * Unbinds a previously bound EventListener or EventListenerObject. The callback returned by bind() should be provided
    * @param callback the original callback to be unbound
    */
-  public unBind(callback: EventListener | EventListenerObject) {
+  public unBind(callback: EventListener | EventListenerObject): this {
     removeEventListener(this.eventID, callback);
+    return this;
   }
 
   /**
@@ -70,7 +71,7 @@ export default class Observe<T> {
    * @see bind() method
    * @param value T
    */
-  public setValue(value: T) {
+  public setValue(value: T) : T{
     if (value !== this.getValue() && !(value instanceof Observe)) {
       this.updateHistory(value);
       this.emit(value);
@@ -83,6 +84,7 @@ export default class Observe<T> {
       this.updateHistory(value);
       this.emit(value);
     }
+    return value;
   }
 
   private updateHistory(value: T) {
