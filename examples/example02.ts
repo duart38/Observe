@@ -6,5 +6,4 @@ obs.bind((data: number) => {
   console.log(`updated with: ${data}`);
 });
 
-obs.setValue(100);
-obs.setValue(50);
+obs.setValue(100, 50);
