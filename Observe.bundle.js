@@ -131,19 +131,23 @@ System.register("Observe", [], function (exports_1, context_1) {
                 }
                 unBind(callback) {
                     removeEventListener(this.eventID, callback);
+                    return this;
                 }
-                setValue(value) {
-                    if (value !== this.getValue() && !(value instanceof Observe)) {
-                        this.updateHistory(value);
-                        this.emit(value);
+                setValue(...value) {
+                    for (let val of value) {
+                        if (val !== this.getValue() && !(val instanceof Observe)) {
+                            this.updateHistory(val);
+                            this.emit(val);
+                        }
+                        else if (val instanceof Observe) {
+                            let lh = this.getHistory()[this.history.length - 1];
+                            lh.unBind(this.lastNestedBound);
+                            this.lastNestedBound = val.bind((d) => this.emit(val));
+                            this.updateHistory(val);
+                            this.emit(val);
+                        }
                     }
-                    else if (value instanceof Observe) {
-                        let lh = this.getHistory()[this.history.length - 1];
-                        lh.unBind(this.lastNestedBound);
-                        this.lastNestedBound = value.bind((d) => this.emit(value));
-                        this.updateHistory(value);
-                        this.emit(value);
-                    }
+                    return value[value.length - 1];
                 }
                 updateHistory(value) {
                     this.history.push(value);
@@ -153,6 +157,7 @@ System.register("Observe", [], function (exports_1, context_1) {
                 }
                 reset() {
                     this.setValue(this.getHistory()[0]);
+                    return this;
                 }
                 emit(value) {
                     this.currentEvent = new CustomEvent(this.eventID, { detail: value });
@@ -163,6 +168,7 @@ System.register("Observe", [], function (exports_1, context_1) {
                 }
                 stop() {
                     this.currentEvent.stopImmediatePropagation();
+                    return this;
                 }
             };
             exports_1("default", Observe);
