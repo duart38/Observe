@@ -104,3 +104,28 @@ Deno.test("Nesting observables should un-sub in case setValue is called", (): vo
 
   assertEquals(temp, 200);
 });
+
+Deno.test("setValue returns the value that was set", (): void => {
+  let val = new Observe("init");
+  val.maxHistorySize = 2;
+  assertEquals(val.setValue("lorem"), "lorem");
+});
+Deno.test("setValue emits all var-args", (): void => {
+  let val = new Observe("init");
+  let saw: string[] = [];
+  val.bind((str)=>{
+    saw.push(str)
+  })
+  val.setValue("lorem", "ipsum", "dolor");
+  assertEquals(saw, ["lorem", "ipsum", "dolor"]);
+});
+Deno.test("Reset returns the instance", (): void => {
+  let val = new Observe("init");
+  val.setValue("lorem");
+  assertEquals(val.reset(), val);
+});
+Deno.test("Stop returns the instance", (): void => {
+  let val = new Observe("init");
+  val.setValue("lorem");
+  assertEquals(val.stop(), val);
+});
