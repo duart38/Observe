@@ -140,7 +140,8 @@ System.register("Observe", [], function (exports_1, context_1) {
                             this.emit(val);
                         }
                         else if (val instanceof Observe) {
-                            let lh = this.getHistory()[this.history.length - 1];
+                            let lh = this
+                                .getHistory()[this.history.length - 1];
                             lh.unBind(this.lastNestedBound);
                             this.lastNestedBound = val.bind((d) => this.emit(val));
                             this.updateHistory(val);

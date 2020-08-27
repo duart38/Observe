@@ -9,9 +9,7 @@ obs.bind((data) => {
 
 obs.setValue(1);
 obs.setValue(
-    obs.setValue(
-        obs.reset().setValue(1,2,3,4,5,6) + 100
-    ) + 200
-)
-
-
+  obs.setValue(
+    obs.reset().setValue(1, 2, 3, 4, 5, 6) + 100,
+  ) + 200,
+);

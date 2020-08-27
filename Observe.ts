@@ -72,15 +72,16 @@ export default class Observe<T> {
    * @see bind() method
    * @param value T
    */
-  public setValue(...value: T[]) : T{
-    for(let val of value){
+  public setValue(...value: T[]): T {
+    for (let val of value) {
       if (val !== this.getValue() && !(val instanceof Observe)) {
         this.updateHistory(val);
         this.emit(val);
       } else if (val instanceof Observe) {
-        let lh = this.getHistory()[this.history.length - 1] as unknown as Observe<
-          any
-        >;
+        let lh = this
+          .getHistory()[this.history.length - 1] as unknown as Observe<
+            any
+          >;
         lh.unBind(this.lastNestedBound); // unbind the last bound to
         this.lastNestedBound = val.bind((d: T) => this.emit(val)); // bind to new value and store its cb
         this.updateHistory(val);
