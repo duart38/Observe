@@ -1,6 +1,6 @@
 ![alt text](https://raw.githubusercontent.com/duart38/Observe/master/banner.svg "Logo Title Text 1")
 # Observe
-> **Simply observe any variable in Deno** <br>
+> **Simply observe any variable** <br>
 
 > ![Test module](https://github.com/duart38/Observe/workflows/Test%20module/badge.svg?branch=master)  
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/Observe)
