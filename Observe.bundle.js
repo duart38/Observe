@@ -111,6 +111,7 @@ System.register("Observe", [], function (exports_1, context_1) {
                     this.currentEvent = new CustomEvent("");
                     this.maxHistorySize = 1000;
                     this.lastNestedBound = () => { };
+                    this.boundCallbacks = [];
                     this.eventID = "Observed_" +
                         crypto.getRandomValues(new Uint32Array(2)).toString().replace(",", "_");
                     this.history.push(defaultValue);
@@ -127,10 +128,19 @@ System.register("Observe", [], function (exports_1, context_1) {
                 bind(callback, once = false) {
                     let func = (e) => callback(e.detail);
                     addEventListener(this.eventID, func, { once });
+                    this.boundCallbacks.push(func);
                     return func;
                 }
                 unBind(callback) {
                     removeEventListener(this.eventID, callback);
+                    this.boundCallbacks.splice(this.boundCallbacks.findIndex((x) => x === callback));
+                    return this;
+                }
+                unBindAll() {
+                    this.boundCallbacks.forEach(cb => {
+                        removeEventListener(this.eventID, cb);
+                    });
+                    this.boundCallbacks = [];
                     return this;
                 }
                 setValue(...value) {

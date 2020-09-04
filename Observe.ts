@@ -11,6 +11,7 @@ export default class Observe<T> {
    */
   public maxHistorySize = 1000;
   private lastNestedBound: EventListener | EventListenerObject = () => {};
+  public boundCallbacks: Array<(e: Event) =>void> = [];
   /**
    * Observes a value for changes and updates all the listeners. also keeps a track of the change history.
    * @param defaultValue
@@ -54,6 +55,7 @@ export default class Observe<T> {
   ): (e: Event) => void {
     let func = (e: Event) => callback((<CustomEvent> e).detail);
     addEventListener(this.eventID, func, { once });
+    this.boundCallbacks.push(func);
     return func;
   }
   /**
@@ -62,6 +64,18 @@ export default class Observe<T> {
    */
   public unBind(callback: EventListener | EventListenerObject): this {
     removeEventListener(this.eventID, callback);
+    this.boundCallbacks.splice(this.boundCallbacks.findIndex((x)=>x === callback));
+    return this;
+  }
+
+  /**
+   * Unbinds ALL previously bound EventListener or EventListenerObject.
+   */
+  public unBindAll(): this{
+    this.boundCallbacks.forEach(cb => {
+      removeEventListener(this.eventID, cb);
+    });
+    this.boundCallbacks = [];
     return this;
   }
 

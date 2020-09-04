@@ -130,5 +130,13 @@ export function testBaseClass() {
     val.setValue("lorem");
     assertEquals(val.stop(), val);
   });
+  Deno.test("unbinding All removes all listeners", (): void => {
+    let val = new Observe("init");
+    let t = 0;
+    val.bind(()=>t++);
+    val.bind(()=>t++);
+    val.unBindAll();
+    assertEquals(t, 0);
+  });
   console.log("\n[+] -- DONE: Testing main class -- \n");
 }
