@@ -1,6 +1,7 @@
 interface ObservedCallback<T> {
   (data: T): void;
 }
+
 export default class Observe<T> {
   private history: Array<T> = [];
   private eventID: string;
@@ -15,16 +16,48 @@ export default class Observe<T> {
   /**
    * Observes a value for changes and updates all the listeners. also keeps a track of the change history.
    * @param defaultValue
+   * @param id (can be undefined, null) Give this observable a unique ID to help when you need to listen for events from the global scope
+   * @param global indicates wether you want to exclude the registering of this Observe instance on the window or not (opting out will still allow you to listen for global events.)
    */
-  constructor(defaultValue: T) {
-    this.eventID = "Observed_" +
-      crypto.getRandomValues(new Uint32Array(2)).toString().replace(",", "_");
+  constructor(defaultValue: T, id:string = "", global = true) {
+    id == "" || id == undefined || id == null
+    ? this.eventID = "Observed_" + crypto.getRandomValues(new Uint32Array(2)).toString().replace(",", "_")
+    : this.eventID = id;
     this.history.push(defaultValue);
     if (defaultValue instanceof Observe) {
       this.lastNestedBound = defaultValue.bind((d: T) =>
         this.emit(defaultValue)
       );
     }
+
+    if(global == true) this.registerObservable(this.eventID);
+  }
+
+
+
+  /**
+   * Register an observable globally (window) to allow access from anywhere.
+   * @param id the ID of the observable to register
+   */
+  private registerObservable(id: string){
+    Observe.registerGlobalNamespace();
+    (window as any).observables[id] = this;
+  }
+
+  /**
+   * Retrieves a previously attached observable from the JS window
+   * @param id the ID of the observable to fetch
+   */
+  static getGlobalObservable <E> (id: string): Observe<E> {
+    this.registerGlobalNamespace();
+    return (window as any).observables[id];
+  }
+
+  /**
+   * Register namespace in window if it has not already been done.
+   */
+  private static registerGlobalNamespace(){
+    if(!(window as any).observables) (window as any).observables = {}
   }
 
   /**

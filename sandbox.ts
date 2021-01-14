@@ -1,13 +1,15 @@
 import Observe from "./Observe.ts";
 
-let obs = new Observe("initial value");
+let obs = new Observe("initial value", "123");
 
-function test(d: any) {
-  console.log("hello " + d);
-}
-
-let first = obs.bind(test);
-let second = obs.bind((x)=>console.log("----------"))
-obs.unBind(first);
+obs.bind((x)=>{
+  console.log(x);
+})
 
 obs.setValue("test");
+
+
+var t = Observe.getGlobalObservable<string>("123")
+
+
+t.setValue("jsjsjsjdsjfhwjdhjn")
