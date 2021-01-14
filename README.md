@@ -58,6 +58,8 @@ observable.setValue("new val")
 | reset()        	| Restore the state to the original provided method. Returns this                                                                                                                                                             	|
 | unBindAll()    	| Unbinds ALL previously bound EventListener or EventListenerObject.                                                                                                                                                          	|
 | maxHistorySize 	| Limit the history array size **(can be lowered to save some precious ram)**                                                                                                                                                 	|
+| getGlobalObservable 	| If opted in, receives the instance created that was attached to the JS window                                                                                                                                                	|
+
 
 > The history length is limited to 1000 values.. after this the first value (excluding the original) will be removed on each push.. to increase or decrease this value change the "maxHistorySize" variable
 
