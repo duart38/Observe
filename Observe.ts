@@ -33,8 +33,6 @@ export default class Observe<T> {
     if(global == true) this.registerObservable(this.eventID);
   }
 
-
-
   /**
    * Register an observable globally (window) to allow access from anywhere.
    * @param id the ID of the observable to register
